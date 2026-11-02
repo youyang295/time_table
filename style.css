@@ -1,0 +1,440 @@
+/* =========================================================
+   样式
+   ========================================================= */
+
+:root {
+  --bg: #f4f5f9;
+  --card: #ffffff;
+  --text: #1a1d26;
+  --muted: #767c8e;
+  --line: #e6e8ef;
+  --accent: #4f6ef7;
+  --now: #ef5b32;
+  --radius: 16px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1116;
+    --card: #191c24;
+    --text: #e8eaf0;
+    --muted: #8b91a3;
+    --line: #262a35;
+    --accent: #6b85ff;
+    --now: #ff8566;
+  }
+}
+
+/* 每门课一个固定颜色：色相 --h 由 app.js 按课程代码算好，写进内联样式。
+   深浅两档（--l / --ld）让相邻色相也分得开，深色模式单独一套。 */
+.course,
+.wg-course {
+  --h: 220;
+  --l: 93%;
+  --ld: 18%;
+  --chip: hsl(var(--h) 72% var(--l));
+  --chip-ink: hsl(var(--h) 58% 30%);
+  --chip-line: hsl(var(--h) 60% 56%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .course,
+  .wg-course {
+    --chip: hsl(var(--h) 32% var(--ld));
+    --chip-ink: hsl(var(--h) 62% 78%);
+    --chip-line: hsl(var(--h) 42% 42%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: calc(28px + var(--safe-bottom));
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------- 顶栏 ---------------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: calc(14px + var(--safe-top)) 18px 10px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.title-block h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.muted {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.week-badge {
+  flex: none;
+  margin-top: 2px;
+  padding: 5px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 999px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  max-width: 640px;
+  margin: 12px auto 0;
+  padding: 4px;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border-radius: 12px;
+}
+
+.tab {
+  flex: 1;
+  padding: 9px 0;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.tab.active {
+  color: var(--text);
+  background: var(--card);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------------- 布局 ---------------- */
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 18px 0;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+  animation: fade 0.2s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------------- Hero ---------------- */
+
+.hero {
+  padding: 18px 18px 16px;
+  border-radius: 20px;
+  color: #fff;
+  background: linear-gradient(135deg, #5b78ff, #3f57d6);
+  box-shadow: 0 8px 24px rgba(63, 87, 214, 0.24);
+}
+
+.hero.now { background: linear-gradient(135deg, #ff7d55, #e14a22); box-shadow: 0 8px 24px rgba(225, 74, 34, 0.24); }
+.hero.done { background: linear-gradient(135deg, #7c8494, #545b6b); box-shadow: none; }
+
+.hero-kicker {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.82;
+}
+
+.hero h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+.hero-meta {
+  margin: 6px 0 0;
+  font-size: 13px;
+  opacity: 0.88;
+}
+
+.hero-foot {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.bar {
+  height: 5px;
+  margin: 14px 0 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.bar > i {
+  display: block;
+  height: 100%;
+  background: #fff;
+  border-radius: inherit;
+  transition: width 0.6s ease;
+}
+
+/* ---------------- 今日课程列表 ---------------- */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.course {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--chip) 55%, var(--card));
+  border-radius: 14px;
+  border-left: 4px solid var(--chip-line, var(--line));
+}
+
+.course.now {
+  background: color-mix(in srgb, var(--now) 7%, var(--card));
+  border-left-color: var(--now);
+}
+
+.course.past {
+  opacity: 0.55;
+}
+
+.course-time {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ct-main {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ct-sep {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ct-periods {
+  flex-basis: 100%;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.course-body h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.course-body .meta {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.course-flag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  white-space: nowrap;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border-radius: 999px;
+}
+
+.course.now .course-flag {
+  color: #fff;
+  background: var(--now);
+}
+
+/* ---------------- 空状态 ---------------- */
+
+.empty {
+  margin-top: 40px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-emoji {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.empty h2 {
+  margin: 14px 0 6px;
+  font-size: 17px;
+  color: var(--text);
+}
+
+.empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* ---------------- 本周网格 ---------------- */
+
+.week-scroll {
+  overflow-x: auto;
+  margin: 0 -18px;
+  padding: 0 18px 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: 30px repeat(var(--days, 5), minmax(58px, 1fr));
+  grid-template-rows: 34px;
+  grid-auto-rows: minmax(52px, auto);
+  gap: 4px;
+  min-width: calc(30px + var(--days, 5) * 62px);
+}
+
+.wg-corner {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.wg-head {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  border-radius: 9px;
+}
+
+.wg-head.is-today {
+  color: #fff;
+  background: var(--accent);
+}
+
+.wg-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.wg-cell {
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--text) 3.5%, transparent);
+}
+
+.wg-cell.is-today {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.wg-course {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  padding: 5px 6px;
+  background: var(--chip);
+  color: var(--chip-ink);
+  border-left: 3px solid var(--chip-line);
+  border-radius: 8px;
+}
+
+.wg-course b {
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.wg-course span {
+  font-size: 10px;
+  opacity: 0.8;
+  overflow-wrap: anywhere;
+}
+
+.wg-course em {
+  margin-top: auto;
+  font-size: 10px;
+  font-style: normal;
+  opacity: 0.7;
+}
+
+/* ---------------- 页脚 ---------------- */
+
+.footer {
+  max-width: 640px;
+  margin: 26px auto 0;
+  padding: 0 18px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+.footer code {
+  font-size: 11px;
+  padding: 1px 5px;
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+  border-radius: 4px;
+}
