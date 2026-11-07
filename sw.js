@@ -1,7 +1,7 @@
 /* Service Worker：让 App 装到手机后断网也能打开
    改了代码或数据后，把下面的版本号加 1（v1 -> v2），手机才会拿到新内容 */
 
-const CACHE = 'kebiao-v3';
+const CACHE = 'kebiao-v4';
 
 const ASSETS = [
   './',

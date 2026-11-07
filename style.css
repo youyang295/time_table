@@ -438,3 +438,169 @@ main {
   background: color-mix(in srgb, var(--text) 7%, transparent);
   border-radius: 4px;
 }
+
+/* =========================================================
+   考试
+   ========================================================= */
+
+:root {
+  --exam: #d9463a;
+  --exam-2: #b83024;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --exam: #ff7d70;
+    --exam-2: #d8422f;
+  }
+}
+
+/* 周几标题上的小红点：这天有考试 */
+.exam-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 3px;
+  vertical-align: 2px;
+  background: var(--exam);
+  border-radius: 50%;
+}
+
+.wg-head.is-today .exam-dot {
+  background: #fff;
+}
+
+/* 本周网格里的考试块 */
+.wg-exam {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  padding: 5px 6px;
+  color: #fff;
+  background: linear-gradient(140deg, #ef6a5f, var(--exam-2));
+  border-radius: 8px;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--exam) 26%, transparent);
+}
+
+.wg-exam b {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.wg-exam span {
+  font-size: 10px;
+  opacity: 0.92;
+}
+
+/* 大片空白里那个很淡的「空闲」+ 点阵底纹 */
+.wg-idle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--text) 30%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 10px 10px;
+  border-radius: 8px;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* 今日列表里的考试卡 */
+.course.exam {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--exam) 13%, var(--card)),
+    color-mix(in srgb, var(--exam) 4%, var(--card))
+  );
+  border-left-color: var(--exam);
+}
+
+.course.exam.past {
+  opacity: 0.5;
+}
+
+.tag-exam {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  vertical-align: 1px;
+  color: #fff;
+  background: var(--exam);
+  border-radius: 999px;
+}
+
+/* Hero 的两种考试配色 */
+.hero.exam-next {
+  background: linear-gradient(135deg, #ff8f6b, var(--exam-2));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--exam) 30%, transparent);
+}
+
+.hero.exam-now {
+  background: linear-gradient(135deg, #e8483c, #9e2119);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--exam) 34%, transparent);
+}
+
+/* =========================================================
+   小修饰
+   ========================================================= */
+
+.week-summary {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.day-note {
+  margin: 18px 0 4px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.empty-hint {
+  margin: 14px 0 0;
+  font-size: 12.5px;
+  color: var(--accent);
+}
+
+/* 卡片逐张浮上来 */
+.list .course {
+  animation: rise 0.32s ease both;
+}
+
+.list .course:nth-child(1) { animation-delay: 0.02s; }
+.list .course:nth-child(2) { animation-delay: 0.06s; }
+.list .course:nth-child(3) { animation-delay: 0.1s; }
+.list .course:nth-child(4) { animation-delay: 0.14s; }
+.list .course:nth-child(5) { animation-delay: 0.18s; }
+.list .course:nth-child(n + 6) { animation-delay: 0.22s; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list .course,
+  .view.active {
+    animation: none;
+  }
+}
